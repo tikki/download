@@ -1,0 +1,6 @@
+simple file download helper script that tries to stay out of your face
+
+features:
+- forges standard firefox like http headers; fools most servers that are
+  anal about this stuff.
+- handles gziped data transparently.
