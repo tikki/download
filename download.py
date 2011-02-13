@@ -3,12 +3,9 @@
 '''use download(url, path = None, overwrite_existing = False) to download a file
 '''
 
-import urllib
-import urllib2
-# for forge headers:
-from collections import OrderedDict as odict
-# for gunzip:
-import cStringIO, gzip
+import urllib, urllib2
+from collections import OrderedDict as odict # used by forge headers
+import cStringIO, gzip # used by gunzip
 
 def _forge_firefox_simple_headers(url): # referer = None
     headers = odict()
@@ -20,8 +17,6 @@ def _forge_firefox_simple_headers(url): # referer = None
     headers['Accept-Charset'] = r'ISO-8859-1,utf-8;q=0.7,*;q=0.7'
     headers['Keep-Alive'] = r'115'
     headers['Connection'] = r'keep-alive'
-    # if referer is None:
-        # headers['Referer'] = url[:url.rfind('/')]
     return headers
 
 def _gunzip(s):
@@ -34,7 +29,6 @@ def download(url, path = None, overwrite_existing = False):
         raise IOError('file exists')
     headers = _forge_firefox_simple_headers(url)
     request = urllib2.Request(url, headers=headers)
-    print repr(url), repr(headers)
     site = urllib2.urlopen(request)
     try:
         content = site.read()
