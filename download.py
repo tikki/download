@@ -3,7 +3,7 @@
 '''use download(url, path = None, overwrite_existing = False) to download a file
 '''
 
-import urllib, urllib2
+import os, urllib, urllib2
 from collections import OrderedDict as odict # used by forge headers
 import cStringIO, gzip # used by gunzip
 
