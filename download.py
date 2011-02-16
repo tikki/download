@@ -6,6 +6,7 @@
 import os, urllib, urllib2
 from collections import OrderedDict as odict # used by forge headers
 import cStringIO, gzip # used by gunzip
+import time, email.utils # used to handle 'last-modified' header
 
 def _forge_firefox_simple_headers(url): # referer = None
     headers = odict()
@@ -43,4 +44,9 @@ def download(url, path = None, overwrite_existing = False):
             os.makedirs(os.path.dirname(path))
         with open(path, 'wb') as fd:
             fd.write(content)
-
+        if 'last-modified' in site.headers.dict:
+            last_modified = site.headers.dict['last-modified']
+            mtime = email.utils.parsedate(last_modified)
+            if mtime:
+                mtime = time.mktime(mtime)
+                os.utime(path, (mtime, mtime))
