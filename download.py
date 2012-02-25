@@ -25,12 +25,12 @@ def _gunzip(s):
     with gzip.GzipFile(fileobj=fo) as gz:
         return gz.read()
 
-def download(url, path = None, overwrite_existing = False):
+def download(url, path = None, overwrite_existing = False, timeout = None):
     if not overwrite_existing and path is not None and os.path.exists(path) and os.path.getsize(path):
         raise IOError('file exists')
     headers = _forge_firefox_simple_headers(url)
     request = urllib2.Request(url, headers=headers)
-    site = urllib2.urlopen(request)
+    site = urllib2.urlopen(request, timeout=timeout)
     try:
         content = site.read()
         if 'content-encoding' in site.headers.dict and site.headers.dict['content-encoding'] == 'gzip':
